@@ -7,7 +7,7 @@ import logger from "morgan";
 
 import { router as indexRouter } from "./routes/index.js";
 import { router as usersRouter } from "./routes/users.js";
-
+import "./config/database.js";
 const app = express();
 
 // view engine setup
