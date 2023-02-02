@@ -1,0 +1,33 @@
+<%- include("../partials/html-head") %>
+
+<link rel="stylesheet" href="/stylesheets/movies/index.css" />
+
+<%- include("../partials/nav") %>
+
+<main>
+  <h1>Movie List</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Relese Year</th>
+        <th>Rating</th>
+        <th>Cast</th>
+        <th>Now Showing</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% movie.forEach(movie => { %>
+
+      <tr>
+        <td><%= movie.title %></td>
+        <td><%= movie.releaseYear %></td>
+        <td><%= movie.mpaaRating %></td>
+        <td><%= movie.cast.join(", ") %></td>
+        <td><%= movie.nowShowing ? "Yes" : "Nope" %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</main>
+<%- include("../partials/footer") %>
