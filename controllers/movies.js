@@ -14,10 +14,15 @@ function create(req, res) {
   if (req.body.cast) {
     req.body.cast = req.body.cast.split(", ")
   }
+  for (const key in req.body) {
+    if (req.body[key] === "") {
+      delete req.body[key]
+    }
+  }
   //use the model to create a movie(using form data in req.body)
   Movie.create(req.body)
     .then((movie) => {
-      res.redirect("/movies/new")
+      res.redirect("/movies")
     })
     .catch((err) => {
       console.log(err)
@@ -27,12 +32,17 @@ function create(req, res) {
 }
 
 function index(req, res) {
-  Movie.find({}).then((movie) => {
-    res.render("movies/index", {
-      title: "All Movies",
-      movie: movie,
+  Movie.find({})
+    .then((movies) => {
+      res.render("movies/index", {
+        title: "All Movies",
+        movies: movies,
+      })
     })
-  })
+    .catch((err) => {
+      console.log(err)
+      res.redirect("/")
+    })
 }
 
 export { newMovie as new, create, index }
