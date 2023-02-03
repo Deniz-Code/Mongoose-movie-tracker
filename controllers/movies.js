@@ -1,4 +1,5 @@
 import { Movie } from "../models/movie.js"
+import { Performer } from "../models/performer.js"
 
 function newMovie(req, res) {
   res.render("movies/new", {
@@ -23,7 +24,7 @@ function create(req, res) {
   //use the model to create a movie(using form data in req.body)
   Movie.create(req.body)
     .then((movie) => {
-      res.redirect("/movies")
+      res.redirect(`/movies/${movie._id}`)
     })
     .catch((err) => {
       console.log(err)
@@ -49,10 +50,15 @@ function index(req, res) {
 function show(req, res) {
   //find movie by _id
   Movie.findById(req.params.id)
+    .populate("cast")
     .then((movie) => {
-      res.render("movies/show", {
-        title: "Movie Detail",
-        movie: movie,
+      //nin means not in
+      Performer.find({ _id: { $nin: movie.cast } }).then((performers) => {
+        res.render("movies/show", {
+          title: "Movie Detail",
+          movie: movie,
+          performers,
+        })
       })
     })
     .catch((err) => {
@@ -89,7 +95,7 @@ function edit(req, res) {
 
 function update(req, res) {
   req.body.nowShowing = !!req.body.nowShowing
-  
+
   for (const key in req.body) {
     if (req.body[key] === "") {
       delete req.body[key]
@@ -129,6 +135,29 @@ function createReview(req, res) {
     })
 }
 
+function addToCast(req, res) {
+  //find the movie by its id (req.params)
+  Movie.findById(req.params.id)
+    .then((movie) => {
+      //add the id of the performer(req.body.performerId) to the cast array
+      movie.cast.push(req.body.performerId)
+      //save the updated movie document
+      movie
+        .save()
+        .then(() => {
+          //redirect back to the movie show view
+          res.redirect(`/movies/${movie._id}`)
+        })
+        .catch((err) => {
+          console.log(err)
+          res.redirect("/movies")
+        })
+    })
+    .catch((err) => {
+      console.log(err)
+      res.redirect("/movies")
+    })
+}
 
 export {
   newMovie as new,
@@ -139,4 +168,5 @@ export {
   edit,
   update,
   createReview,
+  addToCast,
 }

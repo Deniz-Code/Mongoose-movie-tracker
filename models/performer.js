@@ -4,7 +4,8 @@ const Schema = mongoose.Schema
 
 const performerSchema = new Schema(
   {
-    name: { type: String, required: true },
+    //                           makes the date be unique
+    name: { type: String, required: true }, //,unique:true}
   },
   { timestamps: true }
 )

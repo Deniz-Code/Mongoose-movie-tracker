@@ -23,6 +23,7 @@ const movieSchema = new Schema(
     mpaaRating: { type: String, enum: ["G", "PG", "PG-13", "R"] }, //makes it so that only these are acceptable
     nowShowing: { type: Boolean, default: false },
     reviews: [reviewSchema],
+    cast: [{ type: Schema.Types.ObjectId, ref: "Performer" }],
   },
   { timestamps: true }
 )
