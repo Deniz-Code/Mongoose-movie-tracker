@@ -8,7 +8,10 @@
   <h1><%= title %></h1>
   <section>
     <div>Title:</div>
-    <div><%= movie.title %></div>
+    <div>
+      <%= movie.title %>
+      <a href="/movies/<%= movie._id %>/edit"><button>Edit Movie</button></a>
+    </div>
     <div>Release Year:</div>
     <div><%= movie.releaseYear %></div>
     <div>Rating</div>

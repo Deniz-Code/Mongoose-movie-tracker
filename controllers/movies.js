@@ -73,4 +73,46 @@ function deleteMovie(req, res) {
     })
 }
 
-export { newMovie as new, create, index, show, deleteMovie as delete }
+function edit(req, res) {
+  Movie.findById(req.params.id)
+    .then((movie) => {
+      res.render("movies/edit", {
+        title: "Edit Movie",
+        movie,
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+      res.redirect("/")
+    })
+}
+
+function update(req, res) {
+  req.body.nowShowing = !!req.body.nowShowing
+  if (req.body.cast) {
+    req.body.cast = req.body.cast.split(", ")
+  }
+
+  for (const key in req.body) {
+    if (req.body[key] === "") {
+      delete req.body[key]
+    }
+  }
+  Movie.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    .then((movie) => {
+      res.redirect(`/movies/${movie._id}`)
+    })
+    .catch((err) => {
+      console.log(err)
+      res.redirect("/")
+    })
+}
+export {
+  newMovie as new,
+  create,
+  index,
+  show,
+  deleteMovie as delete,
+  edit,
+  update,
+}
