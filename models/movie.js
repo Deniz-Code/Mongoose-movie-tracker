@@ -1,14 +1,21 @@
-import mongoose, { mongo } from "mongoose"
+import mongoose from "mongoose"
 
 const Schema = mongoose.Schema
 
 const movieSchema = new Schema(
   {
-    title: String,
-    releaseYear: { type: Number, default: 2000 },
-    mpaaRating: String,
+    title: { type: String, required: true }, //make is required to enter a title
+    releaseYear: {
+      type: Number,
+      //add the current year in case year is left blank
+      default: function () {
+        return new Date().getFullYear()
+      },
+      min: 1927, //makes it so the minimum year inserted is that
+    },
+    mpaaRating: { type: String, enum: ["G", "PG", "PG-13", "R"] }, //makes it so that only these are acceptable
     cast: [String],
-    nowShowing: {type:Boolean ,default:false},
+    nowShowing: { type: Boolean, default: false },
   },
   { timestamps: true }
 )

@@ -14,6 +14,7 @@ function create(req, res) {
   if (req.body.cast) {
     req.body.cast = req.body.cast.split(", ")
   }
+  //if a input is left blank it will remove it so the default we set in models appears otherwise it will take a empty string as the input
   for (const key in req.body) {
     if (req.body[key] === "") {
       delete req.body[key]
@@ -45,4 +46,19 @@ function index(req, res) {
     })
 }
 
-export { newMovie as new, create, index }
+function show(req, res) {
+  //find movie by _id
+  Movie.findById(req.params.id)
+    .then((movie) => {
+      res.render("movies/show", {
+        title: "Movie Detail",
+        movie: movie,
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+      res.redirect("/")
+    })
+  //pass it to a render for movies/show.ejs
+}
+export { newMovie as new, create, index, show }
