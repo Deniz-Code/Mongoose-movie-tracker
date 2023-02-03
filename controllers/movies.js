@@ -11,9 +11,9 @@ function create(req, res) {
   //handle checkbox
   //handle separating the big cast string into smaller ones
   req.body.nowShowing = !!req.body.nowShowing
-  if (req.body.cast) {
-    req.body.cast = req.body.cast.split(", ")
-  }
+  // if (req.body.cast) {
+  //   req.body.cast = req.body.cast.split(", ")
+  // }
   //if a input is left blank it will remove it so the default we set in models appears otherwise it will take a empty string as the input
   for (const key in req.body) {
     if (req.body[key] === "") {
@@ -89,10 +89,7 @@ function edit(req, res) {
 
 function update(req, res) {
   req.body.nowShowing = !!req.body.nowShowing
-  if (req.body.cast) {
-    req.body.cast = req.body.cast.split(", ")
-  }
-
+  
   for (const key in req.body) {
     if (req.body[key] === "") {
       delete req.body[key]
