@@ -12,6 +12,10 @@ router.get("/:id", moviesCtrl.show)
 
 // POST /movies
 router.post("/",moviesCtrl.create)
+
+//DELETE /movies/:id
+
+router.delete("/:id",moviesCtrl.delete)
 export { router }
 
 

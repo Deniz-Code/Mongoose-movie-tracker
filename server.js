@@ -8,6 +8,7 @@ import logger from "morgan";
 import { router as indexRouter } from "./routes/index.js";
 import { router as moviesRouter } from "./routes/movies.js";
 import "./config/database.js";
+import  methodOverride  from "method-override";
 const app = express();
 
 // view engine setup
@@ -26,6 +27,8 @@ app.use(
     path.join(path.dirname(fileURLToPath(import.meta.url)), "public")
   )
 );
+
+app.use(methodOverride("_method"))
 //mounted routers
 app.use("/", indexRouter);
 app.use("/movies", moviesRouter);

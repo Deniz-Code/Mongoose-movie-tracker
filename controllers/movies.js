@@ -61,4 +61,16 @@ function show(req, res) {
     })
   //pass it to a render for movies/show.ejs
 }
-export { newMovie as new, create, index, show }
+
+function deleteMovie(req, res) {
+  Movie.findByIdAndDelete(req.params.id)
+    .then((movie) => {
+      res.redirect("/movies")
+    })
+    .catch((err) => {
+      console.log(err)
+      res.redirect("/")
+    })
+}
+
+export { newMovie as new, create, index, show, deleteMovie as delete }
