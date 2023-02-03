@@ -14,6 +14,8 @@ router.get("/:id/edit", moviesCtrl.edit)
 // POST /movies
 router.post("/", moviesCtrl.create)
 
+//POST /movies/:id/reviews
+router.post("/:id/reviews",moviesCtrl.createReview)
 //DELETE /movies/:id
 router.delete("/:id", moviesCtrl.delete)
 

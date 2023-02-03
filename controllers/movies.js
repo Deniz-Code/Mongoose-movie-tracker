@@ -107,6 +107,30 @@ function update(req, res) {
       res.redirect("/")
     })
 }
+
+function createReview(req, res) {
+  //find the movie by its _id
+  Movie.findById(req.params.id)
+    .then((movie) => {
+      //push req.body(form data)into the embedded schema
+      movie.reviews.push(req.body)
+      //save  the updated movie document
+      movie
+        .save()
+        .then(() => {
+          //redirect back to the movie show view
+          res.redirect(`/movies/${movie._id}`)
+        })
+        .catch((err) => {
+          console.log(err)
+          res.redirect("/")
+        })
+    })
+    .catch((err) => {
+      console.log(err)
+      res.redirect("/")
+    })
+}
 export {
   newMovie as new,
   create,
@@ -115,4 +139,5 @@ export {
   deleteMovie as delete,
   edit,
   update,
+  createReview,
 }
